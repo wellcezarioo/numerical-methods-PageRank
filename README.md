@@ -19,7 +19,7 @@ python pagerank.py          # ~30 s
 
 ## Resultados principais
 
-**Validação (matriz 3×3):** λ1 = 6,895106515931 em 37 iterações. O valor bate com o do `numpy` até a 11ª casa decimal, e o resíduo ‖Av − λv‖ fica em 7·10⁻¹².
+**Validação (matriz 3×3):** λ1 = 6,895106515929 em 38 iterações. O valor bate com o do `numpy` até a 11ª casa decimal, e o resíduo ‖Av − λv‖ fica em 3·10⁻¹².
 
 **Convergência:** o erro cai como |λ2/λ1|^k. As iterações sobem de 22 para 581 quando a razão vai de 0,2 para 0,95.
 
