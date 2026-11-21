@@ -26,13 +26,13 @@ A ideia do Google foi: uma página é importante se outras páginas importantes 
 
 *Másio César · cerca de 40 s*
 
-Primeiro, o que é um autovetor. Quando multiplicamos uma matriz A por um vetor, normalmente o vetor muda de direção. Mas existem direções especiais em que isso não acontece: o vetor só fica maior ou menor. Essas direções são os autovetores. O número que diz quanto o vetor esticou é o autovalor, o λ. Por isso escrevemos A v = λ v.
+Primeiro, o que é um autovetor. Quando multiplicamos uma matriz A por um vetor, normalmente o vetor muda de direção. Mas existem direções especiais em que isso não acontece: o vetor só fica maior ou menor. Essas direções são os autovetores. O número que diz quanto o vetor esticou é o autovalor, o λ (lambda). Por isso escrevemos A v = λ v (A vezes vê é igual a lambda vezes vê).
 
-Uma matriz tem vários autovalores. O maior deles, em valor absoluto, chamamos de autovalor dominante, λ₁. É ele que o Método das Potências encontra, junto com o seu autovetor.
+Uma matriz tem vários autovalores. O maior deles, em valor absoluto, chamamos de autovalor dominante, λ₁ (lambda um). É ele que o Método das Potências encontra, junto com o seu autovetor.
 
-> **Para entender:** pense na matriz A como uma máquina que transforma vetores. Quase todo vetor sai da máquina apontando para outro lado. O autovetor é o vetor que sai apontando para o mesmo lado, só que maior ou menor. Se A·v = 3·v, então v é autovetor e λ = 3.
+> **Para entender:** pense na matriz A como uma máquina que transforma vetores. Quase todo vetor sai da máquina apontando para outro lado. O autovetor é o vetor que sai apontando para o mesmo lado, só que maior ou menor. Se A·v = 3·v (A vezes vê é igual a três vezes vê), então v é autovetor e λ = 3 (lambda é igual a três).
 >
-> **Se perguntarem por que não calcular direto:** o jeito dos livros é resolver det(A − λI) = 0, que vira um polinômio de grau n. Para matrizes grandes isso é impraticável. O Método das Potências só faz multiplicações.
+> **Se perguntarem por que não calcular direto:** o jeito dos livros é resolver det(A − λI) = 0 (determinante de A menos lambda I igual a zero), que vira um polinômio de grau n. Para matrizes grandes isso é impraticável. O Método das Potências só faz multiplicações.
 
 > **Como ler as fórmulas deste slide:**
 >
@@ -50,19 +50,19 @@ Uma matriz tem vários autovalores. O maior deles, em valor absoluto, chamamos d
 
 *Másio César · cerca de 1 min 20 s*
 
-Agora, a ideia do método. Pegamos um vetor inicial qualquer, x₀. Ele pode ser escrito como uma combinação linear dos autovetores: c₁v₁ + c₂v₂ + … + cₙvₙ.
+Agora, a ideia do método. Pegamos um vetor inicial qualquer, x₀ (xis zero). Ele pode ser escrito como uma combinação linear dos autovetores: c₁v₁ + c₂v₂ + … + cₙvₙ (cê um vê um, mais cê dois vê dois, e assim por diante, até cê ene vê ene).
 
 Quando multiplicamos por A, cada termo é multiplicado pelo seu autovalor. Se multiplicarmos k vezes, cada termo fica multiplicado pelo seu autovalor elevado a k.
 
-Como λ₁ é o maior, o termo de v₁ cresce mais rápido que todos os outros. Na fórmula, colocamos λ₁ᵏ em evidência, e os outros termos ficam com a fração λᵢ/λ₁ elevada a k. Essas frações são menores que 1, então, elevadas a k, vão para zero. No fim, sobra só a direção de v₁.
+Como λ₁ (lambda um) é o maior, o termo de v₁ (vê um) cresce mais rápido que todos os outros. Na fórmula, colocamos λ₁ᵏ (lambda um elevado a k) em evidência, e os outros termos ficam com a fração λᵢ/λ₁ (lambda i sobre lambda um) elevada a k. Essas frações são menores que 1, então, elevadas a k, vão para zero. No fim, sobra só a direção de v₁ (vê um).
 
-A velocidade depende da fração λ₂/λ₁: quanto menor ela, mais rápido os outros termos somem. O erro cai como |λ₂/λ₁| elevado a k.
+A velocidade depende da fração λ₂/λ₁ (lambda dois sobre lambda um): quanto menor ela, mais rápido os outros termos somem. O erro cai como |λ₂/λ₁| (módulo de lambda dois sobre lambda um) elevado a k.
 
-Isso vale com duas condições: os autovetores precisam formar uma base, para dar para escrever x₀ como essa combinação linear, e o coeficiente c₁ não pode ser zero.
+Isso vale com duas condições: os autovetores precisam formar uma base, para dar para escrever x₀ (xis zero) como essa combinação linear, e o coeficiente c₁ (cê um) não pode ser zero.
 
-> **Para entender, com números:** se λ₁ = 10 e λ₂ = 5, a fração é 0,5. Depois de 10 multiplicações, o termo de v₂ ficou com 0,5¹⁰ ≈ 0,001 do tamanho do termo de v₁: praticamente sumiu. É como uma corrida em que um corredor é duas vezes mais rápido: depois de muitas voltas, só ele aparece na frente.
+> **Para entender, com números:** se λ₁ = 10 (lambda um igual a dez) e λ₂ = 5 (lambda dois igual a cinco), a fração é 0,5. Depois de 10 multiplicações, o termo de v₂ (vê dois) ficou com 0,5¹⁰ ≈ 0,001 (zero vírgula cinco elevado a dez, aproximadamente zero vírgula zero zero um) do tamanho do termo de v₁ (vê um): praticamente sumiu. É como uma corrida em que um corredor é duas vezes mais rápido: depois de muitas voltas, só ele aparece na frente.
 >
-> **Se perguntarem "e se c₁ = 0?":** na teoria o método falha. Na prática, o arredondamento do computador cria uma pequena componente na direção de v₁, e ele acaba aparecendo.
+> **Se perguntarem "e se c₁ = 0?" (e se cê um for igual a zero?):** na teoria o método falha. Na prática, o arredondamento do computador cria uma pequena componente na direção de v₁ (vê um), e ele acaba aparecendo.
 
 > **Como ler as fórmulas deste slide:**
 >
@@ -82,7 +82,7 @@ Isso vale com duas condições: os autovetores precisam formar uma base, para da
 
 Na prática, o algoritmo tem quatro passos, repetidos:
 
-Um: multiplicar o vetor pela matriz, y = A·x.
+Um: multiplicar o vetor pela matriz, y = A·x (y é igual a A vezes xis).
 
 Dois: pegar a maior componente de y. Ela é a estimativa do autovalor.
 
@@ -90,11 +90,11 @@ Três: dividir o vetor por esse número. Assim a maior componente fica igual a 1
 
 Quatro: parar quando o autovalor e o vetor praticamente param de mudar.
 
-O passo três, a normalização, é necessário porque, sem ele, os números crescem como λ₁ᵏ e estouram a capacidade do computador, ou vão para zero.
+O passo três, a normalização, é necessário porque, sem ele, os números crescem como λ₁ᵏ (lambda um elevado a k) e estouram a capacidade do computador, ou vão para zero.
 
 E o mais importante: cada iteração custa só uma multiplicação de matriz por vetor. Não precisamos inverter nem fatorar a matriz. Por isso o método funciona até com matrizes gigantes.
 
-> **Para entender o critério de parada:** comparamos o λ de agora com o da iteração anterior. Se a diferença for menor que uma tolerância, como 10⁻¹², e o vetor também quase não mudou, paramos.
+> **Para entender o critério de parada:** comparamos o λ (lambda) de agora com o da iteração anterior. Se a diferença for menor que uma tolerância, como 10⁻¹² (dez elevado a menos doze), e o vetor também quase não mudou, paramos.
 
 > **Como ler as fórmulas deste slide (são linhas de código):**
 >
@@ -113,19 +113,19 @@ E o mais importante: cada iteração custa só uma multiplicação de matriz por
 
 Vamos ver a conta funcionando nesta matriz 3 por 3, começando com o vetor (1, 1, 1).
 
-Primeira iteração: A vezes (1, 1, 1) é a soma de cada linha da matriz. 4 + 1 + 1 = 6, 1 + 3 + 2 = 6 e 1 + 2 + 5 = 8. Dá (6, 6, 8). A maior componente é 8, então a primeira estimativa é λ ≈ 8. Dividindo por 8, o vetor fica (0,75; 0,75; 1).
+Primeira iteração: A vezes (1, 1, 1) é a soma de cada linha da matriz. 4 + 1 + 1 = 6, 1 + 3 + 2 = 6 e 1 + 2 + 5 = 8. Dá (6, 6, 8). A maior componente é 8, então a primeira estimativa é λ ≈ 8 (lambda aproximadamente oito). Dividindo por 8, o vetor fica (0,75; 0,75; 1).
 
 Repetindo, a estimativa cai para 7,25, depois 7,03, e vai se aproximando.
 
-Com tolerância de 10⁻¹², o método para na iteração 38, com λ = 6,895106515929. A função pronta do numpy dá 6,895106515928. Só muda a última casa: são 11 casas decimais corretas.
+Com tolerância de 10⁻¹² (dez elevado a menos doze), o método para na iteração 38, com λ = 6,895106515929 (lambda igual a 6,895106515929). A função pronta do numpy dá 6,895106515928. Só muda a última casa: são 11 casas decimais corretas.
 
-E dá para prever esse número de iterações. Nesta matriz, a fração |λ₂/λ₁| é 0,49, então o erro cai mais ou menos pela metade a cada iteração. Para o erro ir de 1 até 10⁻¹², precisamos de umas 39 iterações. O método parou em 38. Ou seja, a fórmula do slide anterior funcionou na prática.
+E dá para prever esse número de iterações. Nesta matriz, a fração |λ₂/λ₁| (módulo de lambda dois sobre lambda um) é 0,49, então o erro cai mais ou menos pela metade a cada iteração. Para o erro ir de 1 até 10⁻¹² (dez elevado a menos doze), precisamos de umas 39 iterações. O método parou em 38. Ou seja, a fórmula do slide anterior funcionou na prática.
 
 Agora o Antonio mostra o que acontece quando essa fração muda.
 
-> **Se pedirem a segunda iteração:** A·(0,75; 0,75; 1) = (4·0,75 + 0,75 + 1; 0,75 + 3·0,75 + 2; 0,75 + 2·0,75 + 5) = (4,75; 5; 7,25). A maior é 7,25, então λ ≈ 7,25.
+> **Se pedirem a segunda iteração:** A·(0,75; 0,75; 1) = (4·0,75 + 0,75 + 1; 0,75 + 3·0,75 + 2; 0,75 + 2·0,75 + 5) = (4,75; 5; 7,25). A maior é 7,25, então λ ≈ 7,25 (lambda aproximadamente sete vírgula vinte e cinco).
 >
-> **De onde vem o 39:** queremos 0,49ᵏ = 10⁻¹². Tirando o logaritmo dos dois lados: k = log(10⁻¹²) / log(0,49) ≈ 39.
+> **De onde vem o 39:** queremos 0,49ᵏ = 10⁻¹² (zero vírgula quarenta e nove elevado a k igual a dez elevado a menos doze). Tirando o logaritmo dos dois lados: k = log(10⁻¹²) / log(0,49) ≈ 39 (k é igual a log de dez elevado a menos doze, dividido por log de zero vírgula quarenta e nove, aproximadamente trinta e nove).
 
 > **Como ler as fórmulas deste slide:**
 >
@@ -250,11 +250,11 @@ Obrigado, Wellington. Para fechar, três ideias.
 
 Primeira: o Método das Potências só precisa multiplicar matriz por vetor. Por isso ele funciona em matrizes enormes, onde os métodos tradicionais não cabem na memória.
 
-Segunda: dá para prever a velocidade. O erro cai como |λ₂/λ₁| elevado a k. Vimos isso no exemplo 3×3, com 39 iterações previstas e 38 feitas, e no PageRank, onde o erro cai como 0,85 elevado a k.
+Segunda: dá para prever a velocidade. O erro cai como |λ₂/λ₁| (módulo de lambda dois sobre lambda um) elevado a k. Vimos isso no exemplo 3×3, com 39 iterações previstas e 38 feitas, e no PageRank, onde o erro cai como 0,85 elevado a k.
 
 Terceira: ele resolveu um problema real. O ranking de 281 mil páginas saiu em cerca de um segundo, e conferimos o resultado com outros dois métodos.
 
-Os limites: ele encontra um autovalor por vez e fica lento quando λ₂ está perto de λ₁. Para esses casos existem outras versões, como a potência inversa, que o Antonio mostrou.
+Os limites: ele encontra um autovalor por vez e fica lento quando λ₂ (lambda dois) está perto de λ₁ (lambda um). Para esses casos existem outras versões, como a potência inversa, que o Antonio mostrou.
 
 Obrigado.
 
