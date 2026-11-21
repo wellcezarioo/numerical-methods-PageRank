@@ -68,9 +68,9 @@ Quatro: parar quando o autovalor e o vetor praticamente param de mudar.
 
 O passo três, a normalização, é necessário porque, sem ele, os números crescem como λ₁ᵏ e estouram a capacidade do computador, ou vão para zero.
 
-E o mais importante: cada repetição custa só uma multiplicação de matriz por vetor. Não precisamos inverter nem fatorar a matriz. Por isso o método funciona até com matrizes gigantes.
+E o mais importante: cada iteração custa só uma multiplicação de matriz por vetor. Não precisamos inverter nem fatorar a matriz. Por isso o método funciona até com matrizes gigantes.
 
-> **Para entender o critério de parada:** comparamos o λ de agora com o da repetição anterior. Se a diferença for menor que uma tolerância, como 10⁻¹², e o vetor também quase não mudou, paramos.
+> **Para entender o critério de parada:** comparamos o λ de agora com o da iteração anterior. Se a diferença for menor que uma tolerância, como 10⁻¹², e o vetor também quase não mudou, paramos.
 
 ## Slide 6 — Exemplo 3×3: 38 iterações e 11 casas decimais corretas
 
@@ -78,17 +78,17 @@ E o mais importante: cada repetição custa só uma multiplicação de matriz po
 
 Vamos ver a conta funcionando nesta matriz 3 por 3, começando com o vetor (1, 1, 1).
 
-Primeira repetição: A vezes (1, 1, 1) é a soma de cada linha da matriz. 4 + 1 + 1 = 6, 1 + 3 + 2 = 6 e 1 + 2 + 5 = 8. Dá (6, 6, 8). A maior componente é 8, então a primeira estimativa é λ ≈ 8. Dividindo por 8, o vetor fica (0,75; 0,75; 1).
+Primeira iteração: A vezes (1, 1, 1) é a soma de cada linha da matriz. 4 + 1 + 1 = 6, 1 + 3 + 2 = 6 e 1 + 2 + 5 = 8. Dá (6, 6, 8). A maior componente é 8, então a primeira estimativa é λ ≈ 8. Dividindo por 8, o vetor fica (0,75; 0,75; 1).
 
 Repetindo, a estimativa cai para 7,25, depois 7,03, e vai se aproximando.
 
-Com tolerância de 10⁻¹², o método para na repetição 38, com λ = 6,895106515929. A função pronta do numpy dá 6,895106515928. Só muda a última casa: são 11 casas decimais corretas.
+Com tolerância de 10⁻¹², o método para na iteração 38, com λ = 6,895106515929. A função pronta do numpy dá 6,895106515928. Só muda a última casa: são 11 casas decimais corretas.
 
-E dá para prever esse número de repetições. Nesta matriz, a fração |λ₂/λ₁| é 0,49, então o erro cai mais ou menos pela metade a cada repetição. Para o erro ir de 1 até 10⁻¹², precisamos de umas 39 repetições. O método parou em 38. Ou seja, a fórmula do slide anterior funcionou na prática.
+E dá para prever esse número de iterações. Nesta matriz, a fração |λ₂/λ₁| é 0,49, então o erro cai mais ou menos pela metade a cada iteração. Para o erro ir de 1 até 10⁻¹², precisamos de umas 39 iterações. O método parou em 38. Ou seja, a fórmula do slide anterior funcionou na prática.
 
 Agora o Antonio mostra o que acontece quando essa fração muda.
 
-> **Se pedirem a segunda repetição:** A·(0,75; 0,75; 1) = (4·0,75 + 0,75 + 1; 0,75 + 3·0,75 + 2; 0,75 + 2·0,75 + 5) = (4,75; 5; 7,25). A maior é 7,25, então λ ≈ 7,25.
+> **Se pedirem a segunda iteração:** A·(0,75; 0,75; 1) = (4·0,75 + 0,75 + 1; 0,75 + 3·0,75 + 2; 0,75 + 2·0,75 + 5) = (4,75; 5; 7,25). A maior é 7,25, então λ ≈ 7,25.
 >
 > **De onde vem o 39:** queremos 0,49ᵏ = 10⁻¹². Tirando o logaritmo dos dois lados: k = log(10⁻¹²) / log(0,49) ≈ 39.
 
@@ -206,7 +206,7 @@ Obrigado, Wellington. Para fechar, três ideias.
 
 Primeira: o Método das Potências só precisa multiplicar matriz por vetor. Por isso ele funciona em matrizes enormes, onde os métodos tradicionais não cabem na memória.
 
-Segunda: dá para prever a velocidade. O erro cai como |λ₂/λ₁| elevado a k. Vimos isso no exemplo 3×3, com 39 repetições previstas e 38 feitas, e no PageRank, onde o erro cai como 0,85 elevado a k.
+Segunda: dá para prever a velocidade. O erro cai como |λ₂/λ₁| elevado a k. Vimos isso no exemplo 3×3, com 39 iterações previstas e 38 feitas, e no PageRank, onde o erro cai como 0,85 elevado a k.
 
 Terceira: ele resolveu um problema real. O ranking de 281 mil páginas saiu em cerca de um segundo, e conferimos o resultado com outros dois métodos.
 
