@@ -38,19 +38,19 @@ Uma matriz tem vários autovalores. O maior deles, em valor absoluto, chamamos d
 
 *Másio César · cerca de 1 min 20 s*
 
-Agora, a ideia do método. Pegamos um vetor inicial qualquer, x₀. Ele pode ser escrito como uma soma de pedaços, um pedaço na direção de cada autovetor: c₁v₁ mais c₂v₂, e assim por diante.
+Agora, a ideia do método. Pegamos um vetor inicial qualquer, x₀. Ele pode ser escrito como uma combinação linear dos autovetores: c₁v₁ + c₂v₂ + … + cₙvₙ.
 
-Quando multiplicamos por A, cada pedaço é multiplicado pelo seu autovalor. Se multiplicarmos k vezes, cada pedaço fica multiplicado pelo seu autovalor elevado a k.
+Quando multiplicamos por A, cada termo é multiplicado pelo seu autovalor. Se multiplicarmos k vezes, cada termo fica multiplicado pelo seu autovalor elevado a k.
 
-Como λ₁ é o maior, o pedaço de v₁ cresce mais rápido que todos os outros. Na fórmula, colocamos λ₁ᵏ em evidência, e os outros termos ficam com a fração λᵢ/λ₁ elevada a k. Essas frações são menores que 1, então, elevadas a k, vão para zero. No fim, sobra só a direção de v₁.
+Como λ₁ é o maior, o termo de v₁ cresce mais rápido que todos os outros. Na fórmula, colocamos λ₁ᵏ em evidência, e os outros termos ficam com a fração λᵢ/λ₁ elevada a k. Essas frações são menores que 1, então, elevadas a k, vão para zero. No fim, sobra só a direção de v₁.
 
-A velocidade depende da fração λ₂/λ₁: quanto menor ela, mais rápido os outros pedaços somem. O erro cai como |λ₂/λ₁| elevado a k.
+A velocidade depende da fração λ₂/λ₁: quanto menor ela, mais rápido os outros termos somem. O erro cai como |λ₂/λ₁| elevado a k.
 
-Isso vale com duas condições: os autovetores precisam formar uma base, para dar para escrever x₀ como essa soma, e o pedaço c₁ não pode ser zero.
+Isso vale com duas condições: os autovetores precisam formar uma base, para dar para escrever x₀ como essa combinação linear, e o coeficiente c₁ não pode ser zero.
 
-> **Para entender, com números:** se λ₁ = 10 e λ₂ = 5, a fração é 0,5. Depois de 10 multiplicações, o pedaço de v₂ ficou com 0,5¹⁰ ≈ 0,001 do tamanho do pedaço de v₁: praticamente sumiu. É como uma corrida em que um corredor é duas vezes mais rápido: depois de muitas voltas, só ele aparece na frente.
+> **Para entender, com números:** se λ₁ = 10 e λ₂ = 5, a fração é 0,5. Depois de 10 multiplicações, o termo de v₂ ficou com 0,5¹⁰ ≈ 0,001 do tamanho do termo de v₁: praticamente sumiu. É como uma corrida em que um corredor é duas vezes mais rápido: depois de muitas voltas, só ele aparece na frente.
 >
-> **Se perguntarem "e se c₁ = 0?":** na teoria o método falha. Na prática, o arredondamento do computador cria um pedacinho na direção de v₁, e ele acaba aparecendo.
+> **Se perguntarem "e se c₁ = 0?":** na teoria o método falha. Na prática, o arredondamento do computador cria uma pequena componente na direção de v₁, e ele acaba aparecendo.
 
 ## Slide 5 — O algoritmo: multiplicar e normalizar
 
