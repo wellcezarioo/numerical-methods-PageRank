@@ -8,65 +8,89 @@ Duração estimada da fala: cerca de 17 minutos (130 palavras por minuto), dentr
 
 *Másio César · cerca de 30 s*
 
-Boa tarde. Nosso tema é o cálculo de autovalores e autovetores pelo Método das Potências.
+Boa tarde. Nosso trabalho é sobre o Método das Potências, um método numérico para calcular autovalores e autovetores.
 
-A apresentação tem três partes. Primeiro, o método: a ideia, o algoritmo e quando ele funciona. Depois, um problema real em que ele é a peça central: o PageRank, o algoritmo que o Google usou para ordenar páginas da web. Por fim, nossa implementação em Python, aplicada a um grafo real com 281 mil páginas.
+Vamos fazer em três partes. Eu explico como o método funciona e mostro uma conta passo a passo. O Antonio mostra quando ele converge rápido ou devagar e onde ele é usado de verdade: no PageRank, o sistema que o Google usou para ordenar páginas. E o Wellington mostra o nosso programa em Python resolvendo um caso real, com 281 mil páginas.
 
 ## Slide 2 — Uma busca encontra milhares de páginas. Qual delas mostrar primeiro?
 
-*Másio César · cerca de 45 s*
+*Másio César · cerca de 30 s*
 
-Quando digitamos uma busca, existem milhares de páginas que contêm aquelas palavras. O problema é decidir a ordem. Contar quantas vezes a palavra aparece é fácil de manipular. A ideia de Sergey Brin e Larry Page, publicada em 1998, foi usar a estrutura de links da web: uma página é importante se páginas importantes apontam para ela.
+Quando você pesquisa algo no Google, milhares de páginas têm aquelas palavras. Qual mostrar primeiro?
 
-Essa definição é circular, e é justamente por isso que ela vira um problema de autovetor. Para resolver esse problema numa matriz com milhões ou bilhões de linhas, a ferramenta usada é o Método das Potências. Então vamos começar pelo método.
+A ideia do Google foi: uma página é importante se outras páginas importantes apontam para ela. Isso vira uma conta com uma matriz enorme, e a resposta é um autovetor dessa matriz. O jeito de calcular esse autovetor é o Método das Potências. Então vamos entender o método.
+
+> **Para entender:** aqui não precisa explicar o PageRank, o Antonio faz isso. Este slide só mostra por que o assunto importa.
 
 ## Slide 3 — Autovetor: a direção que a matriz apenas estica
 
-*Másio César · cerca de 50 s*
+*Másio César · cerca de 40 s*
 
-Relembrando: um autovetor v de uma matriz A é uma direção que a matriz não gira. Ao multiplicar A por v, o resultado é o próprio v multiplicado por um número, λ, que é o autovalor.
+Primeiro, o que é um autovetor. Quando multiplicamos uma matriz A por um vetor, normalmente o vetor muda de direção. Mas existem direções especiais em que isso não acontece: o vetor só fica maior ou menor. Essas direções são os autovetores. O número que diz quanto o vetor esticou é o autovalor, o λ. Por isso escrevemos A v = λ v.
 
-Uma matriz n por n tem n autovalores. Chamamos de dominante aquele de maior módulo, λ₁, com |λ₁| estritamente maior que |λ₂|. O Método das Potências encontra exatamente esse par: o autovalor dominante e o seu autovetor.
+Uma matriz tem vários autovalores. O maior deles, em valor absoluto, chamamos de autovalor dominante, λ₁. É ele que o Método das Potências encontra, junto com o seu autovetor.
 
-Pelo caminho tradicional, resolveríamos o polinômio característico, que é inviável para matrizes grandes. O método das potências evita isso e usa só multiplicações de matriz por vetor.
+> **Para entender:** pense na matriz A como uma máquina que transforma vetores. Quase todo vetor sai da máquina apontando para outro lado. O autovetor é o vetor que sai apontando para o mesmo lado, só que maior ou menor. Se A·v = 3·v, então v é autovetor e λ = 3.
+>
+> **Se perguntarem por que não calcular direto:** o jeito dos livros é resolver det(A − λI) = 0, que vira um polinômio de grau n. Para matrizes grandes isso é impraticável. O Método das Potências só faz multiplicações.
 
 ## Slide 4 — Multiplicar muitas vezes por A destaca o autovetor dominante
 
 *Másio César · cerca de 1 min 20 s*
 
-Esta é a ideia central. Supondo que os autovetores formam uma base, qualquer vetor inicial x₀ pode ser escrito como combinação deles, com coeficientes c₁ até cₙ. E supomos c₁ ≠ 0, ou seja, que x₀ tem alguma componente na direção de v₁. Essas são as duas hipóteses do método: autovetores formando uma base e c₁ diferente de zero.
+Agora, a ideia do método. Pegamos um vetor inicial qualquer, x₀. Ele pode ser escrito como uma soma de pedaços, um pedaço na direção de cada autovetor: c₁v₁ mais c₂v₂, e assim por diante.
 
-Quando multiplicamos por A, cada autovetor é multiplicado pelo seu autovalor. Depois de k multiplicações, cada termo carrega λᵢ elevado a k. Colocando c₁λ₁ᵏ em evidência, sobra v₁ mais uma soma em que cada termo tem a razão λᵢ sobre λ₁ elevada a k.
+Quando multiplicamos por A, cada pedaço é multiplicado pelo seu autovalor. Se multiplicarmos k vezes, cada pedaço fica multiplicado pelo seu autovalor elevado a k.
 
-Como λ₁ é o dominante, todas essas razões têm módulo menor que 1. Elevadas a k, vão a zero. Então, depois de muitas multiplicações, o vetor aponta na direção de v₁.
+Como λ₁ é o maior, o pedaço de v₁ cresce mais rápido que todos os outros. Na fórmula, colocamos λ₁ᵏ em evidência, e os outros termos ficam com a fração λᵢ/λ₁ elevada a k. Essas frações são menores que 1, então, elevadas a k, vão para zero. No fim, sobra só a direção de v₁.
 
-A rapidez com que isso acontece depende do termo que demora mais a sumir, o de λ₂. O erro diminui como |λ₂/λ₁| elevado a k. Guardem essa razão, porque ela vai voltar no PageRank.
+A velocidade depende da fração λ₂/λ₁: quanto menor ela, mais rápido os outros pedaços somem. O erro cai como |λ₂/λ₁| elevado a k.
+
+Isso vale com duas condições: os autovetores precisam formar uma base, para dar para escrever x₀ como essa soma, e o pedaço c₁ não pode ser zero.
+
+> **Para entender, com números:** se λ₁ = 10 e λ₂ = 5, a fração é 0,5. Depois de 10 multiplicações, o pedaço de v₂ ficou com 0,5¹⁰ ≈ 0,001 do tamanho do pedaço de v₁: praticamente sumiu. É como uma corrida em que um corredor é duas vezes mais rápido: depois de muitas voltas, só ele aparece na frente.
+>
+> **Se perguntarem "e se c₁ = 0?":** na teoria o método falha. Na prática, o arredondamento do computador cria um pedacinho na direção de v₁, e ele acaba aparecendo.
 
 ## Slide 5 — O algoritmo: multiplicar e normalizar
 
-*Másio César · cerca de 1 min 15 s*
+*Másio César · cerca de 1 min*
 
-Na prática, o algoritmo é curto. Partimos de um vetor x, por exemplo, só de uns. A cada iteração, multiplicamos por A. A componente de maior módulo do resultado é a estimativa do autovalor. Dividimos o vetor por ela, o que mantém a maior componente igual a 1.
+Na prática, o algoritmo tem quatro passos, repetidos:
 
-Essa normalização é necessária: sem ela, o vetor cresce como λ₁ elevado a k e estoura a representação em ponto flutuante, ou vai a zero se |λ₁| for menor que 1.
+Um: multiplicar o vetor pela matriz, y = A·x.
 
-Paramos quando duas coisas estabilizam: a estimativa de λ e o próprio vetor. Vamos mostrar mais adiante por que olhar só para λ não basta.
+Dois: pegar a maior componente de y. Ela é a estimativa do autovalor.
 
-O ponto mais importante deste slide é o custo: cada iteração é um único produto de matriz por vetor. Não fatoramos nem invertemos A. Para uma matriz esparsa, isso é muito barato.
+Três: dividir o vetor por esse número. Assim a maior componente fica igual a 1.
+
+Quatro: parar quando o autovalor e o vetor praticamente param de mudar.
+
+O passo três, a normalização, é necessário porque, sem ele, os números crescem como λ₁ᵏ e estouram a capacidade do computador, ou vão para zero.
+
+E o mais importante: cada repetição custa só uma multiplicação de matriz por vetor. Não precisamos inverter nem fatorar a matriz. Por isso o método funciona até com matrizes gigantes.
+
+> **Para entender o critério de parada:** comparamos o λ de agora com o da repetição anterior. Se a diferença for menor que uma tolerância, como 10⁻¹², e o vetor também quase não mudou, paramos.
 
 ## Slide 6 — Exemplo 3×3: 38 iterações e 11 casas decimais corretas
 
 *Másio César · cerca de 1 min 30 s*
 
-Um exemplo pequeno, para conferir. Esta matriz simétrica 3 por 3, partindo do vetor de uns.
+Vamos ver a conta funcionando nesta matriz 3 por 3, começando com o vetor (1, 1, 1).
 
-Na primeira iteração, A vezes (1, 1, 1) dá (6, 6, 8). A maior componente é 8, então λ₁ ≈ 8 e o vetor normalizado é (0,75; 0,75; 1). Na segunda, a estimativa cai para 7,25, depois 7,03, e vai se aproximando.
+Primeira repetição: A vezes (1, 1, 1) é a soma de cada linha da matriz. 4 + 1 + 1 = 6, 1 + 3 + 2 = 6 e 1 + 2 + 5 = 8. Dá (6, 6, 8). A maior componente é 8, então a primeira estimativa é λ ≈ 8. Dividindo por 8, o vetor fica (0,75; 0,75; 1).
 
-Com tolerância 10⁻¹², o método para na iteração 38, com λ = 6,895106515929. O numpy.linalg.eig dá 6,895106515928: a diferença está na décima segunda casa. O autovetor também coincide, e o resíduo Av − λv é da ordem de 10⁻¹².
+Repetindo, a estimativa cai para 7,25, depois 7,03, e vai se aproximando.
 
-Aqui a razão |λ₂/λ₁| é cerca de 0,49. Então cada iteração reduz o erro mais ou menos pela metade. E isso permite prever quantas iterações seriam necessárias: o erro cai como 0,49ᵏ, então para chegar a 10⁻¹² precisamos de k ≈ log(10⁻¹²) / log(0,49) ≈ 39. O método parou em 38. É a fórmula do slide 4 confirmada na prática.
+Com tolerância de 10⁻¹², o método para na repetição 38, com λ = 6,895106515929. A função pronta do numpy dá 6,895106515928. Só muda a última casa: são 11 casas decimais corretas.
 
-No próximo slide, o Antonio mostra o que acontece quando essa razão muda.
+E dá para prever esse número de repetições. Nesta matriz, a fração |λ₂/λ₁| é 0,49, então o erro cai mais ou menos pela metade a cada repetição. Para o erro ir de 1 até 10⁻¹², precisamos de umas 39 repetições. O método parou em 38. Ou seja, a fórmula do slide anterior funcionou na prática.
+
+Agora o Antonio mostra o que acontece quando essa fração muda.
+
+> **Se pedirem a segunda repetição:** A·(0,75; 0,75; 1) = (4·0,75 + 0,75 + 1; 0,75 + 3·0,75 + 2; 0,75 + 2·0,75 + 5) = (4,75; 5; 7,25). A maior é 7,25, então λ ≈ 7,25.
+>
+> **De onde vem o 39:** queremos 0,49ᵏ = 10⁻¹². Tirando o logaritmo dos dois lados: k = log(10⁻¹²) / log(0,49) ≈ 39.
 
 ## Slide 7 — A razão |λ₂/λ₁| decide quantas iterações são necessárias
 
@@ -178,17 +202,17 @@ Isso acontece porque um link vale mais quando vem de uma página importante e co
 
 *Másio César · cerca de 1 min*
 
-Para fechar, três pontos.
+Obrigado, Wellington. Para fechar, três ideias.
 
-Primeiro, o Método das Potências só precisa de produtos de matriz por vetor. Por isso funciona onde métodos diretos não cabem: matrizes enormes e esparsas.
+Primeira: o Método das Potências só precisa multiplicar matriz por vetor. Por isso ele funciona em matrizes enormes, onde os métodos tradicionais não cabem na memória.
 
-Segundo, a convergência é previsível: o erro cai como |λ₂/λ₁| elevado a k. No PageRank, essa razão é limitada por α, o que dá uma garantia independente do tamanho da web. Vimos isso no gráfico.
+Segunda: dá para prever a velocidade. O erro cai como |λ₂/λ₁| elevado a k. Vimos isso no exemplo 3×3, com 39 repetições previstas e 38 feitas, e no PageRank, onde o erro cai como 0,85 elevado a k.
 
-Terceiro, ele resolve o problema real: o ranking de 281 mil páginas em cerca de um segundo, conferido com dois métodos independentes.
+Terceira: ele resolveu um problema real. O ranking de 281 mil páginas saiu em cerca de um segundo, e conferimos o resultado com outros dois métodos.
 
-E os limites: ele encontra um autovalor por vez e fica lento quando o segundo autovalor está perto do primeiro. Para esses casos, existem as variações inversa e com deslocamento, e métodos como QR e Arnoldi.
+Os limites: ele encontra um autovalor por vez e fica lento quando λ₂ está perto de λ₁. Para esses casos existem outras versões, como a potência inversa, que o Antonio mostrou.
 
-O código e os dados estão no repositório do grupo. Obrigado.
+Obrigado.
 
 ## Slide 18 — Perguntas?
 
