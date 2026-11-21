@@ -34,6 +34,18 @@ Uma matriz tem vários autovalores. O maior deles, em valor absoluto, chamamos d
 >
 > **Se perguntarem por que não calcular direto:** o jeito dos livros é resolver det(A − λI) = 0, que vira um polinômio de grau n. Para matrizes grandes isso é impraticável. O Método das Potências só faz multiplicações.
 
+> **Como ler as fórmulas deste slide:**
+>
+> - **A v = λ v** → fala-se "A vezes vê é igual a lambda vezes vê".
+>   - **A** é a matriz. **v** é o vetor (o autovetor). **λ** é a letra grega "lambda", um número comum (o autovalor).
+>   - O lado esquerdo, A v, é "passar o vetor pela matriz". O lado direito, λ v, é "o mesmo vetor multiplicado por um número". A igualdade diz: para esse vetor, passar pela matriz é o mesmo que só multiplicar por um número. Ou seja, a direção não muda, só o tamanho.
+>   - Exemplo: se A v = 3 v, o vetor ficou 3 vezes maior e λ = 3.
+> - **λ₁, λ₂, λₙ** → "lambda um", "lambda dois", "lambda ene". O numerozinho embaixo (índice) só numera: o primeiro, o segundo, o último autovalor.
+> - **|λ₁|** → "módulo de lambda um". As barras verticais significam valor absoluto: o número sem sinal. |−5| = 5.
+> - **|λ₁| > |λ₂| ≥ … ≥ |λₙ|** → "módulo de lambda um maior que módulo de lambda dois, maior ou igual, e assim por diante, até módulo de lambda ene". Quer dizer: os autovalores estão em ordem de tamanho, e o primeiro é estritamente o maior.
+>   - **>** é "maior que"; **≥** é "maior ou igual a"; **…** é "e assim por diante".
+> - **det(A − λI) = 0** (se perguntarem) → "determinante de A menos lambda I igual a zero". **I** é a matriz identidade (1 na diagonal, 0 no resto). É o jeito de livro de achar os autovalores, que vira um polinômio.
+
 ## Slide 4 — Multiplicar muitas vezes por A destaca o autovetor dominante
 
 *Másio César · cerca de 1 min 20 s*
@@ -51,6 +63,18 @@ Isso vale com duas condições: os autovetores precisam formar uma base, para da
 > **Para entender, com números:** se λ₁ = 10 e λ₂ = 5, a fração é 0,5. Depois de 10 multiplicações, o termo de v₂ ficou com 0,5¹⁰ ≈ 0,001 do tamanho do termo de v₁: praticamente sumiu. É como uma corrida em que um corredor é duas vezes mais rápido: depois de muitas voltas, só ele aparece na frente.
 >
 > **Se perguntarem "e se c₁ = 0?":** na teoria o método falha. Na prática, o arredondamento do computador cria uma pequena componente na direção de v₁, e ele acaba aparecendo.
+
+> **Como ler as fórmulas deste slide:**
+>
+> - **x₀ = c₁v₁ + c₂v₂ + … + cₙvₙ** → "xis zero é igual a cê um vê um mais cê dois vê dois, e assim por diante, até cê ene vê ene".
+>   - **x₀** é o vetor inicial (o zero indica "antes de começar"). **v₁, v₂…** são os autovetores. **c₁, c₂…** são números (os coeficientes da combinação linear).
+> - **Aᵏ x₀** → "A elevado a k vezes xis zero". Quer dizer: multiplicar x₀ pela matriz A, k vezes seguidas.
+> - **λ₁ᵏ** → "lambda um elevado a k". O autovalor multiplicado por ele mesmo k vezes.
+> - **Σᵢ₌₂ⁿ** → "somatório de i igual a dois até ene". A letra grega Σ ("sigma") significa "some todos os termos", começando em i = 2 e indo até i = n.
+> - **A fórmula grande:** Aᵏx₀ = c₁λ₁ᵏ [ v₁ + Σᵢ₌₂ⁿ (cᵢ/c₁)(λᵢ/λ₁)ᵏ vᵢ ] → "A elevado a k vezes xis zero é igual a cê um lambda um elevado a k, vezes, abre colchetes, vê um mais o somatório, de i igual a dois até ene, de cê i sobre cê um, vezes lambda i sobre lambda um elevado a k, vezes vê i, fecha colchetes".
+>   - O que ela quer dizer: depois de k multiplicações, o vetor é **um número grande** (c₁λ₁ᵏ) vezes **v₁ mais uns restos**. Os restos têm (λᵢ/λ₁)ᵏ, que vai para zero. Então sobra só v₁.
+> - **|λᵢ/λ₁| < 1** → "módulo de lambda i sobre lambda um menor que um". A fração é menor que 1 porque λ₁ é o maior.
+> - **o erro cai como |λ₂/λ₁|ᵏ** → "o erro cai como módulo de lambda dois sobre lambda um, elevado a k". Se a fração é 0,5, o erro cai pela metade a cada iteração. (Em alguns livros isso aparece como **erro ∝ |λ₂/λ₁|ᵏ**; o **∝** se lê "proporcional a".)
 
 ## Slide 5 — O algoritmo: multiplicar e normalizar
 
@@ -72,6 +96,17 @@ E o mais importante: cada iteração custa só uma multiplicação de matriz por
 
 > **Para entender o critério de parada:** comparamos o λ de agora com o da iteração anterior. Se a diferença for menor que uma tolerância, como 10⁻¹², e o vetor também quase não mudou, paramos.
 
+> **Como ler as fórmulas deste slide (são linhas de código):**
+>
+> - **x = x0 / max|x0|** → "xis recebe xis zero dividido pelo maior valor absoluto das componentes de xis zero". O sinal **=** em código significa "recebe", e **/** é "dividido por".
+> - **y = A @ x** → "y recebe A vezes xis". O **@** é como o Python escreve multiplicação de matriz por vetor.
+> - **λ = y[argmax|y|]** → "lambda recebe a componente de y com o maior valor absoluto". **argmax** é "a posição do maior".
+> - **x_novo = y / λ** → "xis novo recebe y dividido por lambda". É a normalização.
+> - **|Δλ| / |λ| < tol** → "módulo de delta lambda sobre módulo de lambda menor que a tolerância". **Δ** ("delta") significa "variação": quanto o λ mudou desde a iteração anterior. Dividir por |λ| torna isso uma variação relativa (em proporção).
+> - **‖x_novo − x‖∞ < tol** → "norma infinito de xis novo menos xis menor que a tolerância". As barras duplas **‖ ‖** são "norma" (o tamanho de um vetor). A norma infinito (**∞**) é simplesmente a maior diferença entre as componentes. Ou seja: o vetor quase não mudou.
+> - **tol** → tolerância, o quão perto é perto o suficiente (aqui, 10⁻¹²).
+> - **λ₁ᵏ causa overflow ou underflow** → "lambda um elevado a k". Overflow é o número ficar grande demais para o computador; underflow é ficar pequeno demais e virar zero.
+
 ## Slide 6 — Exemplo 3×3: 38 iterações e 11 casas decimais corretas
 
 *Másio César · cerca de 1 min 30 s*
@@ -91,6 +126,15 @@ Agora o Antonio mostra o que acontece quando essa fração muda.
 > **Se pedirem a segunda iteração:** A·(0,75; 0,75; 1) = (4·0,75 + 0,75 + 1; 0,75 + 3·0,75 + 2; 0,75 + 2·0,75 + 5) = (4,75; 5; 7,25). A maior é 7,25, então λ ≈ 7,25.
 >
 > **De onde vem o 39:** queremos 0,49ᵏ = 10⁻¹². Tirando o logaritmo dos dois lados: k = log(10⁻¹²) / log(0,49) ≈ 39.
+
+> **Como ler as fórmulas deste slide:**
+>
+> - **x₀ = (1, 1, 1)** → "xis zero é igual a um, um, um". O vetor inicial com três componentes iguais a 1.
+> - **λₖ** e **xₖ** → "lambda k" e "xis k". As estimativas na iteração número k. Na tabela, k = 1, 2, 3…
+> - **10⁻¹²** → "dez elevado a menos doze". É 0,000000000001 (um trilionésimo). Quanto mais negativo o expoente, menor o número.
+> - **‖Av − λv‖ = 3·10⁻¹²** → "a norma de A vê menos lambda vê é igual a três vezes dez elevado a menos doze". Mede o quanto falta para A v = λ v ser exato. Como deu 0,000000000003, o resultado está praticamente perfeito. Esse valor se chama **resíduo**.
+> - **|λ₂/λ₁| ≈ 0,49** → "módulo de lambda dois sobre lambda um é aproximadamente zero vírgula quarenta e nove". O símbolo **≈** é "aproximadamente igual".
+> - **k = log(10⁻¹²) / log(0,49) ≈ 39** (nas notas) → "k é igual a log de dez elevado a menos doze, dividido por log de zero vírgula quarenta e nove, aproximadamente trinta e nove". O **log** (logaritmo) serve para descobrir o expoente: em qual k o 0,49ᵏ chega a 10⁻¹².
 
 ## Slide 7 — A razão |λ₂/λ₁| decide quantas iterações são necessárias
 
@@ -213,6 +257,11 @@ Terceira: ele resolveu um problema real. O ranking de 281 mil páginas saiu em c
 Os limites: ele encontra um autovalor por vez e fica lento quando λ₂ está perto de λ₁. Para esses casos existem outras versões, como a potência inversa, que o Antonio mostrou.
 
 Obrigado.
+
+> **Como ler as fórmulas deste slide:**
+>
+> - **|λ₂/λ₁|ᵏ** → "módulo de lambda dois sobre lambda um, elevado a k". É a velocidade com que o erro cai: a fração multiplicada por ela mesma a cada iteração.
+> - **αᵏ** → "alfa elevado a k". **α** é a letra grega "alfa"; no PageRank vale 0,85. Então o erro cai como 0,85 × 0,85 × 0,85… a cada iteração.
 
 ## Slide 18 — Perguntas?
 
