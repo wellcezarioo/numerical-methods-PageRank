@@ -34,7 +34,7 @@ Pelo caminho tradicional, resolveríamos o polinômio característico, que é in
 
 *Másio César · cerca de 1 min 20 s*
 
-Esta é a ideia central. Supondo que os autovetores formam uma base, qualquer vetor inicial x₀ pode ser escrito como combinação deles, com coeficientes c₁ até cₙ.
+Esta é a ideia central. Supondo que os autovetores formam uma base, qualquer vetor inicial x₀ pode ser escrito como combinação deles, com coeficientes c₁ até cₙ. E supomos c₁ ≠ 0, ou seja, que x₀ tem alguma componente na direção de v₁. Essas são as duas hipóteses do método: autovetores formando uma base e c₁ diferente de zero.
 
 Quando multiplicamos por A, cada autovetor é multiplicado pelo seu autovalor. Depois de k multiplicações, cada termo carrega λᵢ elevado a k. Colocando c₁λ₁ᵏ em evidência, sobra v₁ mais uma soma em que cada termo tem a razão λᵢ sobre λ₁ elevada a k.
 
@@ -56,7 +56,7 @@ O ponto mais importante deste slide é o custo: cada iteração é um único pro
 
 ## Slide 6 — Exemplo 3×3: 38 iterações e 11 casas decimais corretas
 
-*Másio César · cerca de 1 min 15 s*
+*Másio César · cerca de 1 min 30 s*
 
 Um exemplo pequeno, para conferir. Esta matriz simétrica 3 por 3, partindo do vetor de uns.
 
@@ -64,7 +64,9 @@ Na primeira iteração, A vezes (1, 1, 1) dá (6, 6, 8). A maior componente é 8
 
 Com tolerância 10⁻¹², o método para na iteração 38, com λ = 6,895106515929. O numpy.linalg.eig dá 6,895106515928: a diferença está na décima segunda casa. O autovetor também coincide, e o resíduo Av − λv é da ordem de 10⁻¹².
 
-Aqui a razão |λ₂/λ₁| é cerca de 0,49. Então cada iteração reduz o erro mais ou menos pela metade. No próximo slide, o que acontece quando essa razão muda.
+Aqui a razão |λ₂/λ₁| é cerca de 0,49. Então cada iteração reduz o erro mais ou menos pela metade. E isso permite prever quantas iterações seriam necessárias: o erro cai como 0,49ᵏ, então para chegar a 10⁻¹² precisamos de k ≈ log(10⁻¹²) / log(0,49) ≈ 39. O método parou em 38. É a fórmula do slide 4 confirmada na prática.
+
+No próximo slide, o Antonio mostra o que acontece quando essa razão muda.
 
 ## Slide 7 — A razão |λ₂/λ₁| decide quantas iterações são necessárias
 
